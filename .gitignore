@@ -1,0 +1,12 @@
+# React
+/node_modules
+/build
+/.env
+/.env.local
+/.env.development
+/.env.production
+/.cache
+/coverage
+/public/build
+*.log
+package-lock.json
