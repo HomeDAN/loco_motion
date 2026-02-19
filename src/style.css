@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow: hidden;
+  background: #85738e;
+}
+
+#app {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
