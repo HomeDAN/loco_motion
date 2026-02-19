@@ -8,9 +8,7 @@ export class Experience {
     }
 
     init() {
-        // new FollowThePath()         // Движение объекта по curve
         new Ground()
         new Train()
-
     }
 }

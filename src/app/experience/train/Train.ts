@@ -10,6 +10,7 @@ import {
     Vector3
 } from "three";
 import {App} from "../../App.ts";
+import {DEFAULT_LOCOMOTIVE_COORDS, LOCATIONS_COORDS, LOCATIONS_NAMES} from "./constants.ts";
 
 export class Train {
     box: Mesh<BoxGeometry, MeshBasicMaterial, Object3DEventMap> | undefined;
@@ -22,8 +23,9 @@ export class Train {
     points: Vector3[];
     path: CatmullRomCurve3;
     isPathClosed: boolean;
-    pathObject: Line<BufferGeometry, LineBasicMaterial>;
-     activeDot: string;
+    pathObject: Line<BufferGeometry, LineBasicMaterial> | null;
+    activeDot: string;
+    coordsPair: string[];
 
     constructor() {
         this.app = App.getInstance()
@@ -38,75 +40,121 @@ export class Train {
         this.trainMesh = new Mesh()
         this.isPathClosed = false
 
-        this.activeDot = "green"
+        this.activeDot = LOCATIONS_NAMES.white
+        this.coordsPair = [LOCATIONS_NAMES.white]
 
-        this.points = [
-            new Vector3(-15.5, 0, 9.1),
-            new Vector3(-8.75, 0, 4.55),
-            new Vector3(0, 0, 0),
-            new Vector3(8.75, 0, 4.55),
-            new Vector3(15.5, 0, 9.1),
-        ]
+        this.points = DEFAULT_LOCOMOTIVE_COORDS
 
         this.path = new CatmullRomCurve3()
 
-        this.createPath()
         this.createBox()
-
-        this.dots()
+        this.createLocations()
     }
 
-    dots() {
+    checkCoords(from: string, to: string) {
+        return this.coordsPair.includes(from) && this.coordsPair.includes(to)
+    }
 
-        const coords = [
-            {x: -15.5, y: 0, z: 9.1, color: "green"},
-            {x: 0, y: 0, z: -17.8, color: "blue"},
-            {x: 15.5, y: 0, z: 9.1, color: "red"},
-            {x: 0, y: 0, z: 0, color: "white"},
-        ]
-
-        coords.forEach(coord => {
+    createLocations() {
+        LOCATIONS_COORDS.forEach(coord => {
             const geometry = new BoxGeometry(1, 1, 1);
-            const material = new MeshBasicMaterial({color: coord.color});
+            const material = new MeshBasicMaterial({color: coord.name});
             this.box = new Mesh(geometry, material);
             this.box.position.set(coord.x, coord.y, coord.z);
-            this.box.scale.set(1,1,1)
+            this.box.scale.set(1, 1, 1)
 
             this.app.scene.add(this.box);
 
             this.app.events.onClick(this.box, () => {
 
-                this.activeDot = coord.color
+                this.activeDot = coord.name
 
-                // если (активная точка равно синему цвету) {
-                //     то можем пойти
-                //         - в красную
-                //         - в зеленую
-                // }
-                //
-                // если (активная точка равно красному цвету) {
-                //     то можем пойти
-                //         - в зеленую
-                //         - в синюю
-                // }
-                //
-                // если (активная точка равно зеленому цвету) {
-                //     то можем пойти
-                //         - в красную
-                //         - в синюю
-                // }
-
-                if (coord.color === 'green') {
-                    this.pathObject.rotation.y = 0;
+                // Если в массиве более одной координаты
+                // удаляем первую, чтобы всегда был актуальный маршрут
+                if (this.coordsPair.length > 1) {
+                    this.coordsPair.splice(0, 1)
                 }
 
-                if (coord.color === 'red') {
-                    this.pathObject.rotation.y = 2.10;
+                // При повторном клике на локацию - игнорируем действие
+                if (this.coordsPair[this.coordsPair.length - 1] !== this.activeDot) {
+                    this.coordsPair.push(this.activeDot)
+
+                    const isFromCenter = this.coordsPair.includes(LOCATIONS_NAMES.white)
+
+                    // В случае если маршрут ИЗ центра
+                    if (this.pathObject && isFromCenter) {
+
+                        // TODO вынести в константу
+                        if (this.checkCoords("white", "green")) {
+                            this.points = [
+                                new Vector3(0, 0, 0),
+                                new Vector3(-15.5, 0, 9.1),
+                            ]
+                        }
+
+                        // TODO вынести в константу
+                        if (this.checkCoords("white", "red")) {
+                            this.points = [
+                                new Vector3(0, 0, 0),
+                                new Vector3(15.5, 0, 9.1),
+                            ]
+                        }
+
+                        // TODO вынести в константу
+                        if (this.checkCoords("white", "blue")) {
+                            this.points = [
+                                new Vector3(0, 0, 0),
+                                new Vector3(0, 0, -17.8),
+                            ]
+                        }
+                    }
+
+                    // В случае если маршрут не из центра
+                    if (this.pathObject && !isFromCenter) {
+
+                        // TODO вынести в константу
+                        if (this.checkCoords("red", "green")) {
+                            this.points = [
+                                new Vector3(-15.5, 0, 9.1),
+                                new Vector3(-8.75, 0, 4.55),
+                                new Vector3(0, 0, 0),
+                                new Vector3(8.75, 0, 4.55),
+                                new Vector3(15.5, 0, 9.1),
+                            ]
+                        }
+
+                        // TODO вынести в константу
+                        if (this.checkCoords("blue", "red")) {
+                            this.points = [
+                                new Vector3(0, 0, -17.8),
+                                new Vector3(0, 0, 8.9),
+                                new Vector3(0, 0, 0),
+                                new Vector3(8.75, 0, 4.55),
+                                new Vector3(15.5, 0, 9.1),
+                            ]
+                        }
+
+                        // TODO вынести в константу
+                        if (this.checkCoords("green", "blue")) {
+                            this.points = [
+                                new Vector3(-15.5, 0, 9.1),
+                                new Vector3(-8.75, 0, 4.55),
+                                new Vector3(0, 0, 0),
+                                new Vector3(0, 0, 8.9),
+                                new Vector3(0, 0, -17.8),
+                            ]
+                        }
+                    }
+
+                    this.createPath()
                 }
 
-                if (coord.color === "blue") {
-                    this.pathObject.rotation.y = 4.18;
-                }
+                // TODO заменить на callback после заверщения пути
+                setTimeout(() => {
+                    //@ts-ignore
+                    this.app.scene.remove(this.pathObject)
+                }, 1000)
+
             })
         })
     }
@@ -117,7 +165,7 @@ export class Train {
         this.path = new CatmullRomCurve3(this.points, this.isPathClosed);
 
         const pathGeometry = new BufferGeometry().setFromPoints(
-            this.path.getPoints(2)
+            this.path?.getPoints(2)
         );
 
         const pathMaterial = new LineBasicMaterial({color: 0xff0000});
@@ -133,10 +181,9 @@ export class Train {
         const material = new MeshBasicMaterial({color: 0x00ff00});
         this.box = new Mesh(geometry, material);
         this.app.scene.add(this.box);
-
     }
 
-
-    private update = () => {}
+    private update = () => {
+    }
 
 }
