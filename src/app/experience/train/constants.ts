@@ -21,3 +21,38 @@ export const LOCATIONS_COORDS = [
  * Start locomotive position
  * */
 export const DEFAULT_LOCOMOTIVE_COORDS = [new Vector3(0, 0, 0), new Vector3(0, 0, 0)]
+
+/**
+ * Path coords include center and without center
+ * */
+export const PATH_COORDS = {
+    includeCenter: {
+        white_green: [new Vector3(0, 0, 0), new Vector3(-15.5, 0, 9.1)],
+        white_red: [new Vector3(0, 0, 0), new Vector3(15.5, 0, 9.1)],
+        white_blue: [new Vector3(0, 0, 0), new Vector3(0, 0, -17.8)],
+    },
+
+    withoutCenter: {
+        red_green: [
+            new Vector3(-15.5, 0, 9.1),
+            new Vector3(-8.75, 0, 4.55),
+            new Vector3(0, 0, 0),
+            new Vector3(8.75, 0, 4.55),
+            new Vector3(15.5, 0, 9.1)
+        ],
+        blue_red: [
+            new Vector3(0, 0, -17.8),
+            new Vector3(0, 0, 8.9),
+            new Vector3(0, 0, 0),
+            new Vector3(8.75, 0, 4.55),
+            new Vector3(15.5, 0, 9.1),
+        ],
+        green_blue: [
+            new Vector3(-15.5, 0, 9.1),
+            new Vector3(-8.75, 0, 4.55),
+            new Vector3(0, 0, 0),
+            new Vector3(0, 0, 8.9),
+            new Vector3(0, 0, -17.8),
+        ]
+    }
+}

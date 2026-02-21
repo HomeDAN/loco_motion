@@ -10,15 +10,11 @@ import {
     Vector3
 } from "three";
 import {App} from "../../App.ts";
-import {DEFAULT_LOCOMOTIVE_COORDS, LOCATIONS_COORDS, LOCATIONS_NAMES} from "./constants.ts";
+import {DEFAULT_LOCOMOTIVE_COORDS, LOCATIONS_COORDS, LOCATIONS_NAMES, PATH_COORDS} from "./constants.ts";
 
 export class Train {
     box: Mesh<BoxGeometry, MeshBasicMaterial, Object3DEventMap> | undefined;
     app: App;
-    place1mesh: Mesh;
-    place2mesh: Mesh;
-    place3mesh: Mesh;
-    place4mesh: Mesh;
     trainMesh: Mesh;
     points: Vector3[];
     path: CatmullRomCurve3;
@@ -30,10 +26,6 @@ export class Train {
     constructor() {
         this.app = App.getInstance()
         this.app.ticker.subscribe(this.update.bind(this));
-        this.place1mesh = new Mesh()
-        this.place2mesh = new Mesh()
-        this.place3mesh = new Mesh()
-        this.place4mesh = new Mesh()
 
         this.pathObject = new Line()
 
@@ -49,10 +41,22 @@ export class Train {
 
         this.createBox()
         this.createLocations()
+        this.createTrain()
     }
 
     checkCoords(from: string, to: string) {
         return this.coordsPair.includes(from) && this.coordsPair.includes(to)
+    }
+
+    // TODO
+    // Нужно сделать корректно перемещение позиции поезда
+
+    createTrain() {
+        const geometry = new BoxGeometry(0.5, 0.5, 0.5);
+        const material = new MeshBasicMaterial({color: "orange"});
+        this.trainMesh = new Mesh(geometry, material);
+        this.trainMesh.position.set(0, 1, 0);
+        this.app.scene.add(this.trainMesh);
     }
 
     createLocations() {
@@ -79,70 +83,37 @@ export class Train {
                 if (this.coordsPair[this.coordsPair.length - 1] !== this.activeDot) {
                     this.coordsPair.push(this.activeDot)
 
-                    const isFromCenter = this.coordsPair.includes(LOCATIONS_NAMES.white)
+                    const includeCenter = this.coordsPair.includes(LOCATIONS_NAMES.white)
 
                     // В случае если маршрут ИЗ центра
-                    if (this.pathObject && isFromCenter) {
+                    if (this.pathObject && includeCenter) {
 
-                        // TODO вынести в константу
-                        if (this.checkCoords("white", "green")) {
-                            this.points = [
-                                new Vector3(0, 0, 0),
-                                new Vector3(-15.5, 0, 9.1),
-                            ]
+                        if (this.checkCoords(LOCATIONS_NAMES.white, LOCATIONS_NAMES.green)) {
+                            this.points = PATH_COORDS.includeCenter.white_green
                         }
 
-                        // TODO вынести в константу
-                        if (this.checkCoords("white", "red")) {
-                            this.points = [
-                                new Vector3(0, 0, 0),
-                                new Vector3(15.5, 0, 9.1),
-                            ]
+                        if (this.checkCoords(LOCATIONS_NAMES.white, LOCATIONS_NAMES.red)) {
+                            this.points = PATH_COORDS.includeCenter.white_red
                         }
 
-                        // TODO вынести в константу
-                        if (this.checkCoords("white", "blue")) {
-                            this.points = [
-                                new Vector3(0, 0, 0),
-                                new Vector3(0, 0, -17.8),
-                            ]
+                        if (this.checkCoords(LOCATIONS_NAMES.white, LOCATIONS_NAMES.blue)) {
+                            this.points = PATH_COORDS.includeCenter.white_blue
                         }
                     }
 
                     // В случае если маршрут не из центра
-                    if (this.pathObject && !isFromCenter) {
+                    if (this.pathObject && !includeCenter) {
 
-                        // TODO вынести в константу
-                        if (this.checkCoords("red", "green")) {
-                            this.points = [
-                                new Vector3(-15.5, 0, 9.1),
-                                new Vector3(-8.75, 0, 4.55),
-                                new Vector3(0, 0, 0),
-                                new Vector3(8.75, 0, 4.55),
-                                new Vector3(15.5, 0, 9.1),
-                            ]
+                        if (this.checkCoords(LOCATIONS_NAMES.red, LOCATIONS_NAMES.green)) {
+                            this.points = PATH_COORDS.withoutCenter.red_green
                         }
 
-                        // TODO вынести в константу
-                        if (this.checkCoords("blue", "red")) {
-                            this.points = [
-                                new Vector3(0, 0, -17.8),
-                                new Vector3(0, 0, 8.9),
-                                new Vector3(0, 0, 0),
-                                new Vector3(8.75, 0, 4.55),
-                                new Vector3(15.5, 0, 9.1),
-                            ]
+                        if (this.checkCoords(LOCATIONS_NAMES.blue, LOCATIONS_NAMES.red)) {
+                            this.points = PATH_COORDS.withoutCenter.blue_red
                         }
 
-                        // TODO вынести в константу
-                        if (this.checkCoords("green", "blue")) {
-                            this.points = [
-                                new Vector3(-15.5, 0, 9.1),
-                                new Vector3(-8.75, 0, 4.55),
-                                new Vector3(0, 0, 0),
-                                new Vector3(0, 0, 8.9),
-                                new Vector3(0, 0, -17.8),
-                            ]
+                        if (this.checkCoords(LOCATIONS_NAMES.green, LOCATIONS_NAMES.blue)) {
+                            this.points = PATH_COORDS.withoutCenter.green_blue
                         }
                     }
 
