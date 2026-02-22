@@ -27,9 +27,36 @@ export const DEFAULT_LOCOMOTIVE_COORDS = [new Vector3(0, 0, 0), new Vector3(0, 0
  * */
 export const PATH_COORDS = {
     includeCenter: {
-        white_green: [new Vector3(0, 0, 0), new Vector3(-15.5, 0, 9.1)],
-        white_red: [new Vector3(0, 0, 0), new Vector3(15.5, 0, 9.1)],
-        white_blue: [new Vector3(0, 0, 0), new Vector3(0, 0, -17.8)],
+        // WHITE - GREEN - WHITE
+        white_green: [
+            new Vector3(0, 0, 0),
+            new Vector3(-15.5, 0, 9.1)
+        ],
+        green_white: [
+            new Vector3(-15.5, 0, 9.1),
+            new Vector3(0, 0, 0),
+        ],
+
+        // WHITE - RED - WHITE
+        white_red: [
+            new Vector3(0, 0, 0),
+            new Vector3(15.5, 0, 9.1)
+        ],
+
+        red_white: [
+            new Vector3(15.5, 0, 9.1),
+            new Vector3(0, 0, 0)
+        ],
+
+        // WHITE - BLUE - WHITE
+        white_blue: [
+            new Vector3(0, 0, 0),
+            new Vector3(0, 0, -17.8)
+        ],
+        blue_white: [
+            new Vector3(0, 0, -17.8),
+            new Vector3(0, 0, 0)
+        ],
     },
 
     withoutCenter: {

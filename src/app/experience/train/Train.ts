@@ -11,6 +11,7 @@ import {
 } from "three";
 import {App} from "../../App.ts";
 import {DEFAULT_LOCOMOTIVE_COORDS, LOCATIONS_COORDS, LOCATIONS_NAMES, PATH_COORDS} from "./constants.ts";
+import gsap from "gsap";
 
 export class Train {
     box: Mesh<BoxGeometry, MeshBasicMaterial, Object3DEventMap> | undefined;
@@ -39,24 +40,41 @@ export class Train {
 
         this.path = new CatmullRomCurve3()
 
-        this.createBox()
         this.createLocations()
         this.createTrain()
+
     }
 
     checkCoords(from: string, to: string) {
         return this.coordsPair.includes(from) && this.coordsPair.includes(to)
     }
 
-    // TODO
-    // Нужно сделать корректно перемещение позиции поезда
 
     createTrain() {
-        const geometry = new BoxGeometry(0.5, 0.5, 0.5);
+        const geometry = new BoxGeometry(1, 1, 1);
         const material = new MeshBasicMaterial({color: "orange"});
         this.trainMesh = new Mesh(geometry, material);
-        this.trainMesh.position.set(0, 1, 0);
+        this.trainMesh.position.set(0, 0, 0);
         this.app.scene.add(this.trainMesh);
+    }
+
+    moveTrain() {
+        const progressObj = { t: 0 };
+
+        gsap.to(progressObj, {
+            t: 1,
+            duration: 2,
+            ease: "linear",
+            onUpdate: () => {
+                // Получаем точку на кривой по прогрессу
+                const point = this.path.getPoint(progressObj.t);
+                this.trainMesh.position.copy(point);
+            },
+            onComplete: () => {
+                console.log("Поезд прибыл в пункт назначения");
+            }
+        });
+
     }
 
     createLocations() {
@@ -85,19 +103,27 @@ export class Train {
 
                     const includeCenter = this.coordsPair.includes(LOCATIONS_NAMES.white)
 
-                    // В случае если маршрут ИЗ центра
+                    const isFromCenter = this.coordsPair[0] === LOCATIONS_NAMES.white
+
+                    // В случае если маршрут ИЗ или В центр
                     if (this.pathObject && includeCenter) {
 
                         if (this.checkCoords(LOCATIONS_NAMES.white, LOCATIONS_NAMES.green)) {
-                            this.points = PATH_COORDS.includeCenter.white_green
+                            this.points = isFromCenter
+                                ? PATH_COORDS.includeCenter.white_green
+                                : PATH_COORDS.includeCenter.green_white
                         }
 
                         if (this.checkCoords(LOCATIONS_NAMES.white, LOCATIONS_NAMES.red)) {
-                            this.points = PATH_COORDS.includeCenter.white_red
+                            this.points = isFromCenter
+                                ? PATH_COORDS.includeCenter.white_red
+                                : PATH_COORDS.includeCenter.red_white
                         }
 
                         if (this.checkCoords(LOCATIONS_NAMES.white, LOCATIONS_NAMES.blue)) {
-                            this.points = PATH_COORDS.includeCenter.white_blue
+                            this.points = isFromCenter
+                                ? PATH_COORDS.includeCenter.white_blue
+                                : PATH_COORDS.includeCenter.blue_white
                         }
                     }
 
@@ -118,6 +144,7 @@ export class Train {
                     }
 
                     this.createPath()
+                    this.moveTrain()
                 }
 
                 // TODO заменить на callback после заверщения пути
@@ -145,13 +172,6 @@ export class Train {
         this.app.debug?.addFolder("pathRotation").addControls(this.pathObject, "rotation")
 
         this.app.scene.add(this.pathObject);
-    }
-
-    private createBox() {
-        const geometry = new BoxGeometry(1, 1, 1);
-        const material = new MeshBasicMaterial({color: 0x00ff00});
-        this.box = new Mesh(geometry, material);
-        this.app.scene.add(this.box);
     }
 
     private update = () => {
