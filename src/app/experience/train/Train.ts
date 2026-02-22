@@ -63,7 +63,7 @@ export class Train {
 
         gsap.to(progressObj, {
             t: 1,
-            duration: 2,
+            duration: .1,
             ease: "linear",
             onUpdate: () => {
                 // Получаем точку на кривой по прогрессу
@@ -98,7 +98,7 @@ export class Train {
                 }
 
                 // При повторном клике на локацию - игнорируем действие
-                if (this.coordsPair[this.coordsPair.length - 1] !== this.activeDot) {
+                if (this.coordsPair[1] !== this.activeDot) {
                     this.coordsPair.push(this.activeDot)
 
                     const includeCenter = this.coordsPair.includes(LOCATIONS_NAMES.white)
@@ -130,16 +130,31 @@ export class Train {
                     // В случае если маршрут не из центра
                     if (this.pathObject && !includeCenter) {
 
-                        if (this.checkCoords(LOCATIONS_NAMES.red, LOCATIONS_NAMES.green)) {
+                        const from = this.coordsPair[0]
+                        const to = this.coordsPair[1]
+
+                        if (from === LOCATIONS_NAMES.red && to === LOCATIONS_NAMES.green) {
                             this.points = PATH_COORDS.withoutCenter.red_green
                         }
 
-                        if (this.checkCoords(LOCATIONS_NAMES.blue, LOCATIONS_NAMES.red)) {
+                        if (from === LOCATIONS_NAMES.green && to === LOCATIONS_NAMES.red) {
+                            this.points = PATH_COORDS.withoutCenter.green_red
+                        }
+
+                        if (from === LOCATIONS_NAMES.blue && to === LOCATIONS_NAMES.red) {
                             this.points = PATH_COORDS.withoutCenter.blue_red
                         }
 
-                        if (this.checkCoords(LOCATIONS_NAMES.green, LOCATIONS_NAMES.blue)) {
+                        if (from === LOCATIONS_NAMES.red && to === LOCATIONS_NAMES.blue) {
+                            this.points = PATH_COORDS.withoutCenter.red_blue
+                        }
+
+                        if (from === LOCATIONS_NAMES.green && to === LOCATIONS_NAMES.blue) {
                             this.points = PATH_COORDS.withoutCenter.green_blue
+                        }
+
+                        if (from === LOCATIONS_NAMES.blue && to === LOCATIONS_NAMES.green) {
+                            this.points = PATH_COORDS.withoutCenter.blue_green
                         }
                     }
 
@@ -148,10 +163,10 @@ export class Train {
                 }
 
                 // TODO заменить на callback после заверщения пути
-                setTimeout(() => {
-                    //@ts-ignore
-                    this.app.scene.remove(this.pathObject)
-                }, 1000)
+                // setTimeout(() => {
+                //     //@ts-ignore
+                //     this.app.scene.remove(this.pathObject)
+                // }, 1000)
 
             })
         })
@@ -163,7 +178,7 @@ export class Train {
         this.path = new CatmullRomCurve3(this.points, this.isPathClosed);
 
         const pathGeometry = new BufferGeometry().setFromPoints(
-            this.path?.getPoints(2)
+            this.path?.getPoints(50)
         );
 
         const pathMaterial = new LineBasicMaterial({color: 0xff0000});
