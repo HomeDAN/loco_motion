@@ -61,25 +61,55 @@ export const PATH_COORDS = {
 
     withoutCenter: {
         red_green: [
-            new Vector3(-15.5, 0, 9.1),
-            new Vector3(-8.75, 0, 4.55),
+            new Vector3(15.5, 0, 9.1),
+            // new Vector3(8.75, 0, 4.55),
             new Vector3(0, 0, 0),
-            new Vector3(8.75, 0, 4.55),
+            // new Vector3(-8.75, 0, 4.55),
+            new Vector3(-15.5, 0, 9.1)
+        ],
+
+        green_red: [
+            new Vector3(-15.5, 0, 9.1),
+            // new Vector3(-8.75, 0, 4.55),
+            new Vector3(0, 0, 0),
+            // new Vector3(8.75, 0, 4.55),
             new Vector3(15.5, 0, 9.1)
         ],
+
         blue_red: [
             new Vector3(0, 0, -17.8),
-            new Vector3(0, 0, 8.9),
-            new Vector3(0, 0, 0),
-            new Vector3(8.75, 0, 4.55),
+            new Vector3(0, 0, -16),
+
+            new Vector3(1.65, 0, -2),
+
+            new Vector3(14.5, 0, 8.6),
             new Vector3(15.5, 0, 9.1),
         ],
+
+        red_blue: [
+            new Vector3(15.5, 0, 9.1),
+            new Vector3(14.5, 0, 8.6),
+            // new Vector3(8.75, 0, 4.55),
+            new Vector3(1.65, 0, -2),
+            // new Vector3(0, 0, -8.9),
+            new Vector3(0, 0, -16),
+            new Vector3(0, 0, -17.8),
+        ],
+
         green_blue: [
             new Vector3(-15.5, 0, 9.1),
-            new Vector3(-8.75, 0, 4.55),
+            // new Vector3(-8.75, 0, 4.55),
             new Vector3(0, 0, 0),
-            new Vector3(0, 0, 8.9),
+            // new Vector3(0, 0, 8.9),
             new Vector3(0, 0, -17.8),
+        ],
+
+        blue_green: [
+            new Vector3(0, 0, -17.8),
+            // new Vector3(0, 0, -17.8),
+            new Vector3(0, 0, 0),
+            // new Vector3(-15.5, 0, 9.1),
+            new Vector3(-15.5, 0, 9.1),
         ]
     }
 }
