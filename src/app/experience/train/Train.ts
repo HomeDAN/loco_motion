@@ -12,7 +12,7 @@ import {
 import {App} from "../../App.ts";
 import {
     DEFAULT_LOCOMOTIVE_COORDS,
-    HELPER_LOCATIONS_COORDS, HELPER_LOCATIONS_COORDS_NEAR_TO_LOCATION,
+    HELPER_CURVE_COORDS,
     LOCATIONS_COORDS,
     LOCATIONS_NAMES,
     PATH_COORDS
@@ -49,25 +49,12 @@ export class Train {
         this.createLocations()
         this.createTrain()
 
-        this.helperDots()
         this.helperDotsNear()
-
     }
 
-    helperDots() {
-        HELPER_LOCATIONS_COORDS.forEach((coords) => {
-            const geometry = new BoxGeometry(1, 1, 1);
-            const material = new MeshBasicMaterial({color: coords.name});
-            this.box = new Mesh(geometry, material);
-            this.box.position.set(coords.x, coords.y, coords.z);
-            this.box.scale.set(1, 1, 1)
-            this.app.scene.add(this.box);
-
-        })
-    }
 
     helperDotsNear() {
-        HELPER_LOCATIONS_COORDS_NEAR_TO_LOCATION.forEach((coords) => {
+        HELPER_CURVE_COORDS.forEach((coords) => {
             const geometry = new BoxGeometry(1, 1, 1);
             const material = new MeshBasicMaterial({color: coords.name});
             this.box = new Mesh(geometry, material);
@@ -84,7 +71,7 @@ export class Train {
 
 
     createTrain() {
-        const geometry = new BoxGeometry(1, 1, 1);
+        const geometry = new BoxGeometry(1, 1, 3);
         const material = new MeshBasicMaterial({color: "orange"});
         this.trainMesh = new Mesh(geometry, material);
         this.trainMesh.position.set(0, 0, 0);
@@ -93,21 +80,28 @@ export class Train {
 
     moveTrain() {
         const progressObj = { t: 0 };
+        const pathLength = this.path.getLength();
+        const speed = 6;
+        const duration = pathLength / speed;
 
         gsap.to(progressObj, {
             t: 1,
-            duration: 5,
-            ease: "linear",
+            duration: duration,
+            ease: "sine.inOut", // Плавное начало и конец
             onUpdate: () => {
-                // Получаем точку на кривой по прогрессу
                 const point = this.path.getPoint(progressObj.t);
                 this.trainMesh.position.copy(point);
-            },
-            onComplete: () => {
-                console.log("Поезд прибыл в пункт назначения");
+
+                // Поворачиваем поезд вдоль пути
+                if (progressObj.t > 0 && progressObj.t < 1) {
+                    const tangent = this.path.getTangent(progressObj.t);
+                    this.trainMesh.quaternion.setFromUnitVectors(
+                        new Vector3(0, 0, 1),
+                        tangent
+                    );
+                }
             }
         });
-
     }
 
     createLocations() {
@@ -208,10 +202,10 @@ export class Train {
     private createPath() {
 
         // True означает замкнутость пути и добавляет 1 сегмент в путь
-        this.path = new CatmullRomCurve3(this.points, this.isPathClosed, "centripetal", 0.5);
+        this.path = new CatmullRomCurve3(this.points, false,  "catmullrom", 0.25);
 
         const pathGeometry = new BufferGeometry().setFromPoints(
-            this.path?.getPoints(300)
+            this.path?.getPoints(50)
         );
 
         const pathMaterial = new LineBasicMaterial({color: 0xff0000});
