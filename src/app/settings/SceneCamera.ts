@@ -26,9 +26,9 @@ export class SceneCamera {
     }
 
     setCamera() {
-        this.camera.position.set(0, 10, 20);
+        this.camera.position.set(0, 80, 0); // Высоко над сценой
 
-        this.orbitControls.target.set(0, 5, 0);
+        this.orbitControls.target.set(0, 0, 0); // Цель в центре сцены
         this.orbitControls.update();
     }
 

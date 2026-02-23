@@ -10,7 +10,13 @@ import {
     Vector3
 } from "three";
 import {App} from "../../App.ts";
-import {DEFAULT_LOCOMOTIVE_COORDS, LOCATIONS_COORDS, LOCATIONS_NAMES, PATH_COORDS} from "./constants.ts";
+import {
+    DEFAULT_LOCOMOTIVE_COORDS,
+    HELPER_LOCATIONS_COORDS, HELPER_LOCATIONS_COORDS_NEAR_TO_LOCATION,
+    LOCATIONS_COORDS,
+    LOCATIONS_NAMES,
+    PATH_COORDS
+} from "./constants.ts";
 import gsap from "gsap";
 
 export class Train {
@@ -43,6 +49,33 @@ export class Train {
         this.createLocations()
         this.createTrain()
 
+        this.helperDots()
+        this.helperDotsNear()
+
+    }
+
+    helperDots() {
+        HELPER_LOCATIONS_COORDS.forEach((coords) => {
+            const geometry = new BoxGeometry(1, 1, 1);
+            const material = new MeshBasicMaterial({color: coords.name});
+            this.box = new Mesh(geometry, material);
+            this.box.position.set(coords.x, coords.y, coords.z);
+            this.box.scale.set(1, 1, 1)
+            this.app.scene.add(this.box);
+
+        })
+    }
+
+    helperDotsNear() {
+        HELPER_LOCATIONS_COORDS_NEAR_TO_LOCATION.forEach((coords) => {
+            const geometry = new BoxGeometry(1, 1, 1);
+            const material = new MeshBasicMaterial({color: coords.name});
+            this.box = new Mesh(geometry, material);
+            this.box.position.set(coords.x, coords.y, coords.z);
+            this.box.scale.set(1, 1, 1)
+            this.app.scene.add(this.box);
+
+        })
     }
 
     checkCoords(from: string, to: string) {
@@ -63,7 +96,7 @@ export class Train {
 
         gsap.to(progressObj, {
             t: 1,
-            duration: .1,
+            duration: 5,
             ease: "linear",
             onUpdate: () => {
                 // Получаем точку на кривой по прогрессу
@@ -175,10 +208,10 @@ export class Train {
     private createPath() {
 
         // True означает замкнутость пути и добавляет 1 сегмент в путь
-        this.path = new CatmullRomCurve3(this.points, this.isPathClosed);
+        this.path = new CatmullRomCurve3(this.points, this.isPathClosed, "centripetal", 0.5);
 
         const pathGeometry = new BufferGeometry().setFromPoints(
-            this.path?.getPoints(50)
+            this.path?.getPoints(300)
         );
 
         const pathMaterial = new LineBasicMaterial({color: 0xff0000});
