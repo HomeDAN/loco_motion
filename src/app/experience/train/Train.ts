@@ -5,7 +5,7 @@ import {
     Line,
     LineBasicMaterial,
     Mesh,
-    MeshBasicMaterial,
+    MeshBasicMaterial, Object3D,
     type Object3DEventMap,
     Vector3
 } from "three";
@@ -22,7 +22,7 @@ import gsap from "gsap";
 export class Train {
     box: Mesh<BoxGeometry, MeshBasicMaterial, Object3DEventMap> | undefined;
     app: App;
-    trainMesh: Mesh;
+    trainMesh: Object3D;
     points: Vector3[];
     path: CatmullRomCurve3;
     isPathClosed: boolean;
@@ -71,11 +71,12 @@ export class Train {
 
 
     createTrain() {
-        const geometry = new BoxGeometry(1, 1, 3);
-        const material = new MeshBasicMaterial({color: "orange"});
-        this.trainMesh = new Mesh(geometry, material);
-        this.trainMesh.position.set(0, 0, 0);
-        this.app.scene.add(this.trainMesh);
+        this.app.scene.traverse(object => {
+            if( object.name === "TRAIN") {
+                this.trainMesh = object
+                this.trainMesh.position.set(0, 0, 0);
+            }
+        })
     }
 
     moveTrain() {

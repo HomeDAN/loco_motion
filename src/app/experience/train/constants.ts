@@ -35,7 +35,7 @@ export const LOCATIONS_COORDS = [
 export const HELPER_CURVE_COORDS = [
     {x: CURVE_COORDS.green.x, y: CURVE_COORDS.green.y, z: CURVE_COORDS.green.z, name: "pink", },    // GREEN
     {x: CURVE_COORDS.blue.x, y: CURVE_COORDS.blue.y, z: CURVE_COORDS.blue.z, name: "pink"},        // BLUE
-    {x: CURVE_COORDS.red.x, y: CURVE_COORDS.red.y, z: CURVE_COORDS.red.z, name: "pink"},       // RED
+    {x: CURVE_COORDS.red.x, y: CURVE_COORDS.red.y, z: CURVE_COORDS.red.z, name: "pink"},            // RED
 ]
 
 /**
