@@ -11,22 +11,24 @@ import {Experience} from "./experience/Experience.ts";
 import {Render} from "./settings/Render.ts";
 import {RayCursor} from "./settings/RayCursor.ts";
 import {EventEmitter} from "./settings/EventEmitter.ts";
+import {ResourcesLoader} from "./settings/ResourcesLoader.ts";
 
 export class App {
-    scene: THREE.Scene;
+    scene: THREE.Scene | undefined;
     $dom: Element | null;
-    camera: SceneCamera;
-    light: SceneLight;
-    textureLoader: TextureLoader;
-    dracoLoader: DRACOLoader;
-    gltfLoader: GLTFLoader;
-    debug: Debug | null;
-    ticker: Ticker;
-    experience: Experience;
-    render: Render;
-    domElement: HTMLCanvasElement;
-    raycaster: RayCursor;
-    events: EventEmitter;
+    camera: SceneCamera | undefined;
+    light: SceneLight | undefined;
+    textureLoader: TextureLoader | undefined;
+    dracoLoader: DRACOLoader | undefined;
+    gltfLoader: GLTFLoader | undefined;
+    debug: Debug | null | undefined;
+    ticker: Ticker | undefined;
+    experience: Experience | undefined;
+    render: Render | undefined;
+    domElement: HTMLCanvasElement | undefined;
+    raycaster: RayCursor | undefined;
+    events: EventEmitter | undefined;
+    resourcesLoader: ResourcesLoader | undefined;
     static instance: App;
 
     static getInstance()
@@ -35,10 +37,12 @@ export class App {
     }
 
     constructor($dom: Element | null) {
-
         App.instance = this
-
         this.$dom = $dom
+        this.init().then()
+    }
+
+    async init () {
         this.scene = new THREE.Scene();
         this.debug = window.location.href.match('debug-ui') ? new Debug() : null;
         this.render = new Render();
@@ -55,6 +59,8 @@ export class App {
         this.raycaster = new RayCursor()
         this.events = new EventEmitter()
 
+        this.resourcesLoader = new ResourcesLoader()
+        await this.resourcesLoader.load()
         this.experience = new Experience()
     }
 }
