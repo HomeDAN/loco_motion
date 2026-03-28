@@ -6,7 +6,6 @@ import {
     LineBasicMaterial,
     Mesh,
     MeshBasicMaterial, Object3D,
-    type Object3DEventMap,
     Vector3
 } from "three";
 import {App} from "../../App.ts";
@@ -20,7 +19,7 @@ import {
 import gsap from "gsap";
 
 export class Train {
-    box: Mesh<BoxGeometry, MeshBasicMaterial, Object3DEventMap> | undefined;
+    box: Mesh<BoxGeometry, MeshBasicMaterial> | undefined;
     app: App;
     trainMesh: Object3D;
     points: Vector3[];
@@ -32,7 +31,7 @@ export class Train {
 
     constructor() {
         this.app = App.getInstance()
-        this.app.ticker.subscribe(this.update.bind(this));
+        this.app.ticker?.subscribe(this.update.bind(this));
 
         this.pathObject = new Line()
 
@@ -60,7 +59,7 @@ export class Train {
             this.box = new Mesh(geometry, material);
             this.box.position.set(coords.x, coords.y, coords.z);
             this.box.scale.set(1, 1, 1)
-            this.app.scene.add(this.box);
+            this.app.scene?.add(this.box);
 
         })
     }
@@ -71,7 +70,7 @@ export class Train {
 
 
     createTrain() {
-        this.app.scene.traverse(object => {
+        this.app.scene?.traverse(object => {
             if( object.name === "TRAIN") {
                 this.trainMesh = object
                 this.trainMesh.position.set(0, 0, 0);
@@ -113,9 +112,9 @@ export class Train {
             this.box.position.set(coord.x, coord.y, coord.z);
             this.box.scale.set(1, 1, 1)
 
-            this.app.scene.add(this.box);
+            this.app.scene?.add(this.box);
 
-            this.app.events.onClick(this.box, () => {
+            this.app.events?.onClick(this.box, () => {
 
                 this.activeDot = coord.name
 
@@ -214,7 +213,7 @@ export class Train {
 
         this.app.debug?.addFolder("pathRotation").addControls(this.pathObject, "rotation")
 
-        this.app.scene.add(this.pathObject);
+        this.app.scene?.add(this.pathObject);
     }
 
     private update = () => {

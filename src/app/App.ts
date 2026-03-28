@@ -12,6 +12,7 @@ import {Render} from "./settings/Render.ts";
 import {RayCursor} from "./settings/RayCursor.ts";
 import {EventEmitter} from "./settings/EventEmitter.ts";
 import {ResourcesLoader} from "./settings/ResourcesLoader.ts";
+import {MODELS} from "./models.ts";
 
 export class App {
     scene: THREE.Scene | undefined;
@@ -31,8 +32,7 @@ export class App {
     resourcesLoader: ResourcesLoader | undefined;
     static instance: App;
 
-    static getInstance()
-    {
+    static getInstance() {
         return App.instance
     }
 
@@ -42,7 +42,7 @@ export class App {
         this.init().then()
     }
 
-    async init () {
+    async init() {
         this.scene = new THREE.Scene();
         this.debug = window.location.href.match('debug-ui') ? new Debug() : null;
         this.render = new Render();
@@ -60,7 +60,7 @@ export class App {
         this.events = new EventEmitter()
 
         this.resourcesLoader = new ResourcesLoader()
-        await this.resourcesLoader.load()
+        await this.resourcesLoader.load(MODELS)
         this.experience = new Experience()
     }
 }
