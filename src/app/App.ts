@@ -66,5 +66,7 @@ export class App {
         await this.resourcesLoader.load(MODELS)
 
         this.experience = new Experience()
+
+        console.log("this test", this.scene)
     }
 }

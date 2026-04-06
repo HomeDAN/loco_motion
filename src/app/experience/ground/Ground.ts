@@ -18,7 +18,7 @@ export class Ground {
         const material = new SimpleGridMaterial();
 
         this.ground = new Mesh(geometry, material);
-        this.ground?.position.set(0, -.5, 0);
+        this.ground?.position.set(0, -3, 0);
         this.app.scene.add(this.ground);
     }
 }
