@@ -17,9 +17,9 @@ const scaleTriangleCoordinates = (scaleValue: number) => {
     };
 };
 
-const COORDS_VALUES = scaleTriangleCoordinates(30)
+const COORDS_VALUES = scaleTriangleCoordinates(50)
 
-const CURVE_COORDS = scaleTriangleCoordinates(5)
+const CURVE_COORDS = scaleTriangleCoordinates(7)
 
 /**
  * Locations coords on scene
