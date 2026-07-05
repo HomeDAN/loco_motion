@@ -68,7 +68,6 @@ export class Train {
         return this.coordsPair.includes(from) && this.coordsPair.includes(to)
     }
 
-
     createTrain() {
         this.app.scene?.traverse(object => {
             if( object.name === "TRAIN") {
