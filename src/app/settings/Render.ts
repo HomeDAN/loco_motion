@@ -14,6 +14,8 @@ export class Render {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.setAnimationLoop(this.animate.bind(this));
+
+        console.log(this.renderer.backend)
     }
 
     getDOMElement(): HTMLCanvasElement {

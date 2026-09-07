@@ -14,3 +14,6 @@
 | 🧬 **Modeling** | Cuberpunk Platform | ✅            |
 | 🏔️ **Modeling** | Mountain Platform  | ✅            |
 | 🧹 **Clean-Up** | Clean up           | ✅            |
+
+### 🌍 CHAPTER 2: BASIC RAILS
+*Some rails....*
