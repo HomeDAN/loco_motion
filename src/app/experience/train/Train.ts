@@ -72,7 +72,7 @@ export class Train {
         this.app.scene?.traverse(object => {
             if( object.name === "TRAIN") {
                 this.trainMesh = object
-                this.trainMesh.position.set(0, 0, 0);
+                this.trainMesh.position.set(0, 1, 0);
             }
         })
     }

@@ -11,7 +11,7 @@ export class SceneCamera {
 
         this.app = App.getInstance()
 
-        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.orbitControls = new OrbitControls(this.camera, this.app.domElement);
         this.setCamera()
         this.setCameraGUI()
