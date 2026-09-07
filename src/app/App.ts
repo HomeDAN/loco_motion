@@ -4,7 +4,6 @@ import {SceneCamera} from "./settings/SceneCamera.ts";
 import {SceneLight} from "./settings/SceneLight.ts";
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
-
 import {Debug} from "./settings/Debug.ts";
 import {Ticker} from "./settings/Ticker.ts";
 import {Experience} from "./experience/Experience.ts";
@@ -12,8 +11,9 @@ import {Render} from "./settings/Render.ts";
 import {RayCursor} from "./settings/RayCursor.ts";
 import {EventEmitter} from "./settings/EventEmitter.ts";
 import {ResourcesLoader} from "./settings/ResourcesLoader.ts";
-import {MODELS} from "./models.ts";
 import {Viewport} from "./settings/Viewport.ts";
+
+import {MODELS} from "./models.ts";
 
 export class App {
     scene: THREE.Scene;
@@ -38,9 +38,41 @@ export class App {
         return App.instance
     }
 
-    constructor($dom: Element | null) {
+    constructor(
+        $dom: Element | null,
+        scene: THREE.Scene,
+        camera: SceneCamera,
+        light: SceneLight,
+        textureLoader: TextureLoader,
+        dracoLoader: DRACOLoader,
+        gltfLoader: GLTFLoader,
+        debug: Debug | null,
+        ticker: Ticker,
+        experience: Experience,
+        render: Render,
+        domElement: HTMLCanvasElement,
+        raycaster: RayCursor,
+        events: EventEmitter,
+        resourcesLoader: ResourcesLoader,
+        viewport: Viewport,
+    ) {
         App.instance = this
         this.$dom = $dom
+        this.scene = scene
+        this.camera = camera
+        this.light = light
+        this.textureLoader = textureLoader
+        this.dracoLoader = dracoLoader
+        this.gltfLoader = gltfLoader
+        this.debug = debug
+        this.ticker = ticker
+        this.experience = experience
+        this.render = render
+        this.domElement = domElement
+        this.raycaster = raycaster
+        this.events = events
+        this.resourcesLoader = resourcesLoader
+        this.viewport = viewport
         this.init().then()
     }
 
@@ -66,7 +98,5 @@ export class App {
         await this.resourcesLoader.load(MODELS)
 
         this.experience = new Experience()
-
-        console.log("this test", this.scene)
     }
 }
