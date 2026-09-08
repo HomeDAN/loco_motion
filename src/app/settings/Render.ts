@@ -1,5 +1,6 @@
 import {App} from "../App.ts";
 import {WebGPURenderer} from "three/webgpu";
+import {Inspector} from "three/addons/inspector/Inspector.js"
 
 export class Render {
     renderer: WebGPURenderer;
@@ -14,6 +15,7 @@ export class Render {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.setAnimationLoop(this.animate.bind(this));
+        this.renderer.inspector = new Inspector()
 
         console.log(this.renderer.backend)
     }

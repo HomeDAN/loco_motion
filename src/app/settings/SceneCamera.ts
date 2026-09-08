@@ -20,16 +20,19 @@ export class SceneCamera {
     private setCameraGUI() {
         this.app.debug?.addFolder("🎥 CAMERA")
             .addControls(this.camera, 'position')
-            .addSlider(this.camera, "fov", 1, 180, 75)
+            .addSlider(this.camera, "fov", 1, 100, 75)
             .addSlider(this.camera, "far", 0.1, 50, 100)
             .addSlider(this.camera, "near", 0.1, 50, 0.1);
     }
 
     setCamera() {
-        this.camera.position.set(0, 80, 0); // Высоко над сценой
+        this.camera.position.set(21, 21, 0);
+        this.camera.fov = 28
 
-        this.orbitControls.target.set(0, 0, 0); // Цель в центре сцены
+        this.orbitControls.target.set(2, 0, 0);
         this.orbitControls.update();
+
+        this.orbitControls.enabled = !!this.app.debug;
     }
 
     getCamera() {
@@ -39,5 +42,4 @@ export class SceneCamera {
     updateOrbitControls() {
         return this.orbitControls.update();
     }
-
 }
