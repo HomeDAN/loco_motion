@@ -1,13 +1,13 @@
 import {Mesh, Object3D, type Object3DEventMap} from "three";
-import {App} from "../../App.ts";
+import {ThreeApp} from "../../ThreeApp.ts";
 
 export class World {
     platform: Object3D<Object3DEventMap>
-    app: App;
+    app: ThreeApp;
     dummy: Object3D<Object3DEventMap>;
 
     constructor() {
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
         this.platform = new Mesh()
         this.dummy = new Object3D();
         this.createPlatform()

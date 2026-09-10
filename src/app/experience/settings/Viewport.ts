@@ -1,10 +1,10 @@
-import {App} from "../App.ts";
+import {ThreeApp} from "../ThreeApp.ts";
 
 export class Viewport {
-    private readonly app: App;
+    private readonly app: ThreeApp;
 
     constructor() {
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
         this.init()
     }
 

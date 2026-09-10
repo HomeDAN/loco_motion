@@ -10,6 +10,8 @@
   },
   "devDependencies": {
     "@tweakpane/core": "^2.0.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@types/three": "^0.183.1",
     "vite": "^7.3.1"
   },
@@ -17,6 +19,8 @@
     "@tweakpane/plugin-essentials": "^0.2.1",
     "@vitejs/plugin-basic-ssl": "^2.3.0",
     "gsap": "^3.14.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "spectorjs": "^0.9.30",
     "three": "^0.183.1"
   }

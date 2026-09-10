@@ -1,5 +1,5 @@
-import {Train} from "./train/Train.ts";
-import {World} from "./world/World.ts";
+import {Train} from "./objects/train/Train.ts";
+import {World} from "./objects/world/World.ts";
 
 export class Experience {
     constructor() {
