@@ -6,7 +6,7 @@ import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 import {Debug} from "./settings/Debug.ts";
 import {Ticker} from "./settings/Ticker.ts";
-import {Experience} from "./experience/Experience.ts";
+import {Experience} from "./Experience.ts";
 import {Render} from "./settings/Render.ts";
 import {RayCursor} from "./settings/RayCursor.ts";
 import {EventEmitter} from "./settings/EventEmitter.ts";
@@ -15,9 +15,8 @@ import {Viewport} from "./settings/Viewport.ts";
 
 import {MODELS} from "./models.ts";
 
-export class App {
+export class ThreeApp {
     scene: THREE.Scene;
-    $dom: Element | null;
     camera: SceneCamera;
     light: SceneLight;
     textureLoader: TextureLoader;
@@ -32,14 +31,13 @@ export class App {
     events: EventEmitter;
     resourcesLoader: ResourcesLoader;
     viewport: Viewport;
-    static instance: App;
+    static instance: ThreeApp;
 
     static getInstance() {
-        return App.instance
+        return ThreeApp.instance
     }
 
     constructor(
-        $dom: Element | null,
         scene: THREE.Scene,
         camera: SceneCamera,
         light: SceneLight,
@@ -56,8 +54,7 @@ export class App {
         resourcesLoader: ResourcesLoader,
         viewport: Viewport,
     ) {
-        App.instance = this
-        this.$dom = $dom
+        ThreeApp.instance = this
         this.scene = scene
         this.camera = camera
         this.light = light

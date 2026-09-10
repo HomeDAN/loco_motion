@@ -1,14 +1,14 @@
-import {App} from "../App.ts";
+import {ThreeApp} from "../ThreeApp.ts";
 import {WebGPURenderer} from "three/webgpu";
 import {Inspector} from "three/addons/inspector/Inspector.js"
 
 export class Render {
     renderer: WebGPURenderer;
-    private readonly app: App;
+    private readonly app: ThreeApp;
 
     constructor() {
 
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
 
         this.renderer = new WebGPURenderer()
         this.renderer.shadowMap.enabled = true;

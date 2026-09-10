@@ -1,17 +1,17 @@
 import * as THREE from 'three';
 import {AmbientLight, DirectionalLight, DirectionalLightHelper} from 'three';
 
-import {App} from "../App.ts";
+import {ThreeApp} from "../ThreeApp.ts";
 
 export class SceneLight {
     ambientLight: AmbientLight;
     directionalLight: DirectionalLight;
     directionalLightHelper: DirectionalLightHelper;
-    private readonly app: App;
+    private readonly app: ThreeApp;
 
     constructor() {
 
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
 
         this.ambientLight = new THREE.AmbientLight(0xFFFFFF, 1);
         this.directionalLight = new THREE.DirectionalLight(0xFFFFFF, 5);

@@ -8,7 +8,7 @@ import {
     MeshBasicMaterial, Object3D,
     Vector3
 } from "three";
-import {App} from "../../App.ts";
+import {ThreeApp} from "../../ThreeApp.ts";
 import {
     DEFAULT_LOCOMOTIVE_COORDS,
     HELPER_CURVE_COORDS,
@@ -20,7 +20,7 @@ import gsap from "gsap";
 
 export class Train {
     box: Mesh<BoxGeometry, MeshBasicMaterial> | undefined;
-    app: App;
+    app: ThreeApp;
     trainMesh: Object3D;
     points: Vector3[];
     path: CatmullRomCurve3;
@@ -30,7 +30,7 @@ export class Train {
     coordsPair: string[];
 
     constructor() {
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
         this.app.ticker?.subscribe(this.update.bind(this));
 
         this.pathObject = new Line()
@@ -108,6 +108,7 @@ export class Train {
             const geometry = new BoxGeometry(1, 1, 1);
             const material = new MeshBasicMaterial({color: coord.name});
             this.box = new Mesh(geometry, material);
+            this.box.name = coord.name
             this.box.position.set(coord.x, coord.y, coord.z);
             this.box.scale.set(1, 1, 1)
 

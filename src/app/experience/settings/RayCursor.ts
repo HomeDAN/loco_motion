@@ -1,14 +1,14 @@
 import {type Intersection, Raycaster, Vector2} from "three";
-import {App} from "../App.ts";
+import {ThreeApp} from "../ThreeApp.ts";
 
 export class RayCursor {
     raycaster: Raycaster;
     pointer: Vector2;
-    app: App;
+    app: ThreeApp;
     intersects: Intersection[] = [];
 
     constructor() {
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
         this.raycaster = new Raycaster();
         this.pointer = new Vector2(0, 0)
 

@@ -1,15 +1,15 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {App} from "../App.ts";
+import {ThreeApp} from "../ThreeApp.ts";
 
 export class SceneCamera {
     camera: THREE.PerspectiveCamera;
     orbitControls: OrbitControls;
-    private readonly app: App;
+    private readonly app: ThreeApp;
 
     constructor() {
 
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
 
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.orbitControls = new OrbitControls(this.camera, this.app.domElement);

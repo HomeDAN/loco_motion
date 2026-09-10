@@ -1,4 +1,4 @@
-import {App} from "../App.ts";
+import {ThreeApp} from "../ThreeApp.ts";
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import * as THREE from 'three';
@@ -11,7 +11,7 @@ type LoadingProgress = {
 };
 
 export class ResourcesLoader {
-    app: App;
+    app: ThreeApp;
     loadingStatus: Map<string, LoadingProgress>;
     onProgressCallback?: (progress: LoadingProgress) => void;
     onCompleteCallback?: (results: any) => void;
@@ -19,7 +19,7 @@ export class ResourcesLoader {
     gltfLoader: any;
 
     constructor() {
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
         this.loadingStatus = new Map()
 
         this.loader = new DRACOLoader()

@@ -1,15 +1,15 @@
 import {Mesh, Object3D, type Object3DEventMap, TorusGeometry} from "three";
-import {App} from "../App.ts";
+import {ThreeApp} from "./ThreeApp.ts";
 import * as THREE from 'three/webgpu'
 import {checker, vec2, vec3, uv, time} from "three/tsl";
 
 export class Example {
     platform: Object3D<Object3DEventMap>
-    app: App;
+    app: ThreeApp;
     dummy: Object3D<Object3DEventMap>;
 
     constructor() {
-        this.app = App.getInstance()
+        this.app = ThreeApp.getInstance()
         this.platform = new Mesh()
         this.dummy = new Object3D();
         this.createTorus()
