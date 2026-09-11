@@ -1,19 +1,21 @@
 import {Vector3} from "three";
 
 export const LOCATIONS_NAMES = {
-    green: 'green',
-    blue: 'blue',
-    red: 'red',
-    white: 'white',
-}
+    CITY: 'city',
+    ISLAND: 'island',
+    WATER: 'water',
+    STATION: 'station',
+} as const;
+
+export type LocationNamesTypes = typeof LOCATIONS_NAMES[keyof typeof LOCATIONS_NAMES];
 
 const scaleTriangleCoordinates = (scaleValue: number) => {
     const factor = scaleValue / 30;
     return {
-        green: {x: -25.98 * factor, y: 0, z: -15 * factor},
-        blue: {x: 0, y: 0, z: 30 * factor},
-        red: {x: 25.95 * factor, y: 0, z: -15 * factor},
-        white: {x: 0, y: 0, z: 0}
+        CITY: {x: -25.98 * factor, y: 0, z: -15 * factor},
+        ISLAND: {x: 0, y: 0, z: 30 * factor},
+        WATER: {x: 25.95 * factor, y: 0, z: -15 * factor},
+        STATION: {x: 0, y: 0, z: 0}
     };
 };
 
@@ -25,25 +27,19 @@ const CURVE_COORDS = scaleTriangleCoordinates(7)
  * Locations coords on scene
  * */
 export const LOCATIONS_COORDS = [
-    {x: COORDS_VALUES.green.x, y: COORDS_VALUES.green.y, z: COORDS_VALUES.green.z, name: LOCATIONS_NAMES.green},
-    {x: COORDS_VALUES.blue.x, y: COORDS_VALUES.blue.y, z: COORDS_VALUES.blue.z, name: LOCATIONS_NAMES.blue},
-    {x: COORDS_VALUES.red.x, y: COORDS_VALUES.red.y, z: COORDS_VALUES.red.z, name: LOCATIONS_NAMES.red},
+    {x: COORDS_VALUES.CITY.x, y: COORDS_VALUES.CITY.y, z: COORDS_VALUES.CITY.z, name: LOCATIONS_NAMES.CITY},
+    {x: COORDS_VALUES.ISLAND.x, y: COORDS_VALUES.ISLAND.y, z: COORDS_VALUES.ISLAND.z, name: LOCATIONS_NAMES.ISLAND},
+    {x: COORDS_VALUES.WATER.x, y: COORDS_VALUES.WATER.y, z: COORDS_VALUES.WATER.z, name: LOCATIONS_NAMES.WATER},
 
-    {x: COORDS_VALUES.white.x, y: COORDS_VALUES.white.y, z: COORDS_VALUES.white.z, name: LOCATIONS_NAMES.white},
-]
-
-export const HELPER_CURVE_COORDS = [
-    {x: CURVE_COORDS.green.x, y: CURVE_COORDS.green.y, z: CURVE_COORDS.green.z, name: "pink", },    // GREEN
-    {x: CURVE_COORDS.blue.x, y: CURVE_COORDS.blue.y, z: CURVE_COORDS.blue.z, name: "pink"},        // BLUE
-    {x: CURVE_COORDS.red.x, y: CURVE_COORDS.red.y, z: CURVE_COORDS.red.z, name: "pink"},            // RED
+    {x: COORDS_VALUES.STATION.x, y: COORDS_VALUES.STATION.y, z: COORDS_VALUES.STATION.z, name: LOCATIONS_NAMES.STATION},
 ]
 
 /**
  * Start locomotive position
  * */
 export const DEFAULT_LOCOMOTIVE_COORDS = [
-    new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z),
-    new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z)
+    new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z),
+    new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z)
 ]
 
 /**
@@ -52,84 +48,84 @@ export const DEFAULT_LOCOMOTIVE_COORDS = [
 export const PATH_COORDS = {
     includeCenter: {
         // WHITE - GREEN - WHITE
-        white_green: [
-            new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z),
-            new Vector3(COORDS_VALUES.green.x, COORDS_VALUES.green.y, COORDS_VALUES.green.z)
+        station_city: [
+            new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z),
+            new Vector3(COORDS_VALUES.CITY.x, COORDS_VALUES.CITY.y, COORDS_VALUES.CITY.z)
         ],
-        green_white: [
-            new Vector3(COORDS_VALUES.green.x, COORDS_VALUES.green.y, COORDS_VALUES.green.z),
-            new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z),
+        city_station: [
+            new Vector3(COORDS_VALUES.CITY.x, COORDS_VALUES.CITY.y, COORDS_VALUES.CITY.z),
+            new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z),
         ],
 
         // WHITE - RED - WHITE
-        white_red: [
-            new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z),
-            new Vector3(COORDS_VALUES.red.x, COORDS_VALUES.red.y, COORDS_VALUES.red.z),
+        station_water: [
+            new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z),
+            new Vector3(COORDS_VALUES.WATER.x, COORDS_VALUES.WATER.y, COORDS_VALUES.WATER.z),
         ],
 
-        red_white: [
-            new Vector3(COORDS_VALUES.red.x, COORDS_VALUES.red.y, COORDS_VALUES.red.z),
-            new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z),
+        water_station: [
+            new Vector3(COORDS_VALUES.WATER.x, COORDS_VALUES.WATER.y, COORDS_VALUES.WATER.z),
+            new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z),
         ],
 
         // WHITE - BLUE - WHITE
-        white_blue: [
-            new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z),
-            new Vector3(COORDS_VALUES.blue.x, COORDS_VALUES.blue.y, COORDS_VALUES.blue.z),
+        station_island: [
+            new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z),
+            new Vector3(COORDS_VALUES.ISLAND.x, COORDS_VALUES.ISLAND.y, COORDS_VALUES.ISLAND.z),
         ],
-        blue_white: [
-            new Vector3(COORDS_VALUES.blue.x, COORDS_VALUES.blue.y, COORDS_VALUES.blue.z),
-            new Vector3(COORDS_VALUES.white.x, COORDS_VALUES.white.y, COORDS_VALUES.white.z),
+        island_station: [
+            new Vector3(COORDS_VALUES.ISLAND.x, COORDS_VALUES.ISLAND.y, COORDS_VALUES.ISLAND.z),
+            new Vector3(COORDS_VALUES.STATION.x, COORDS_VALUES.STATION.y, COORDS_VALUES.STATION.z),
         ],
     },
 
     withoutCenter: {
-        red_green: [
-            new Vector3(COORDS_VALUES.red.x, COORDS_VALUES.red.y, COORDS_VALUES.red.z),
-            new Vector3(CURVE_COORDS.red.x, CURVE_COORDS.red.y, CURVE_COORDS.red.z),
+        water_city: [
+            new Vector3(COORDS_VALUES.WATER.x, COORDS_VALUES.WATER.y, COORDS_VALUES.WATER.z),
+            new Vector3(CURVE_COORDS.WATER.x, CURVE_COORDS.WATER.y, CURVE_COORDS.WATER.z),
 
-            new Vector3(CURVE_COORDS.green.x, CURVE_COORDS.green.y, CURVE_COORDS.green.z),
-            new Vector3(COORDS_VALUES.green.x, COORDS_VALUES.green.y, COORDS_VALUES.green.z),
+            new Vector3(CURVE_COORDS.CITY.x, CURVE_COORDS.CITY.y, CURVE_COORDS.CITY.z),
+            new Vector3(COORDS_VALUES.CITY.x, COORDS_VALUES.CITY.y, COORDS_VALUES.CITY.z),
         ],
 
-        green_red: [
-            new Vector3(COORDS_VALUES.green.x, COORDS_VALUES.green.y, COORDS_VALUES.green.z),
-            new Vector3(CURVE_COORDS.green.x, CURVE_COORDS.green.y, CURVE_COORDS.green.z),
+        city_water: [
+            new Vector3(COORDS_VALUES.CITY.x, COORDS_VALUES.CITY.y, COORDS_VALUES.CITY.z),
+            new Vector3(CURVE_COORDS.CITY.x, CURVE_COORDS.CITY.y, CURVE_COORDS.CITY.z),
 
-            new Vector3(CURVE_COORDS.red.x, CURVE_COORDS.red.y, CURVE_COORDS.red.z),
-            new Vector3(COORDS_VALUES.red.x, COORDS_VALUES.red.y, COORDS_VALUES.red.z),
+            new Vector3(CURVE_COORDS.WATER.x, CURVE_COORDS.WATER.y, CURVE_COORDS.WATER.z),
+            new Vector3(COORDS_VALUES.WATER.x, COORDS_VALUES.WATER.y, COORDS_VALUES.WATER.z),
         ],
 
-        blue_red: [
-            new Vector3(COORDS_VALUES.blue.x, COORDS_VALUES.blue.y, COORDS_VALUES.blue.z),
-            new Vector3(CURVE_COORDS.blue.x, CURVE_COORDS.blue.y, CURVE_COORDS.blue.z),
+        island_water: [
+            new Vector3(COORDS_VALUES.ISLAND.x, COORDS_VALUES.ISLAND.y, COORDS_VALUES.ISLAND.z),
+            new Vector3(CURVE_COORDS.ISLAND.x, CURVE_COORDS.ISLAND.y, CURVE_COORDS.ISLAND.z),
 
-            new Vector3(CURVE_COORDS.red.x, CURVE_COORDS.red.y, CURVE_COORDS.red.z),
-            new Vector3(COORDS_VALUES.red.x, COORDS_VALUES.red.y, COORDS_VALUES.red.z),
+            new Vector3(CURVE_COORDS.WATER.x, CURVE_COORDS.WATER.y, CURVE_COORDS.WATER.z),
+            new Vector3(COORDS_VALUES.WATER.x, COORDS_VALUES.WATER.y, COORDS_VALUES.WATER.z),
         ],
 
-        red_blue: [
-            new Vector3(COORDS_VALUES.red.x, COORDS_VALUES.red.y, COORDS_VALUES.red.z),
-            new Vector3(CURVE_COORDS.red.x, CURVE_COORDS.red.y, CURVE_COORDS.red.z),
+        water_island: [
+            new Vector3(COORDS_VALUES.WATER.x, COORDS_VALUES.WATER.y, COORDS_VALUES.WATER.z),
+            new Vector3(CURVE_COORDS.WATER.x, CURVE_COORDS.WATER.y, CURVE_COORDS.WATER.z),
 
-            new Vector3(CURVE_COORDS.blue.x, CURVE_COORDS.blue.y, CURVE_COORDS.blue.z),
-            new Vector3(COORDS_VALUES.blue.x, COORDS_VALUES.blue.y, COORDS_VALUES.blue.z),
+            new Vector3(CURVE_COORDS.ISLAND.x, CURVE_COORDS.ISLAND.y, CURVE_COORDS.ISLAND.z),
+            new Vector3(COORDS_VALUES.ISLAND.x, COORDS_VALUES.ISLAND.y, COORDS_VALUES.ISLAND.z),
         ],
 
-        green_blue: [
-            new Vector3(COORDS_VALUES.green.x, COORDS_VALUES.green.y, COORDS_VALUES.green.z),
-            new Vector3(CURVE_COORDS.green.x, CURVE_COORDS.green.y, CURVE_COORDS.green.z),
+        city_island: [
+            new Vector3(COORDS_VALUES.CITY.x, COORDS_VALUES.CITY.y, COORDS_VALUES.CITY.z),
+            new Vector3(CURVE_COORDS.CITY.x, CURVE_COORDS.CITY.y, CURVE_COORDS.CITY.z),
 
-            new Vector3(CURVE_COORDS.blue.x, CURVE_COORDS.blue.y, CURVE_COORDS.blue.z),
-            new Vector3(COORDS_VALUES.blue.x, COORDS_VALUES.blue.y, COORDS_VALUES.blue.z),
+            new Vector3(CURVE_COORDS.ISLAND.x, CURVE_COORDS.ISLAND.y, CURVE_COORDS.ISLAND.z),
+            new Vector3(COORDS_VALUES.ISLAND.x, COORDS_VALUES.ISLAND.y, COORDS_VALUES.ISLAND.z),
         ],
 
-        blue_green: [
-            new Vector3(COORDS_VALUES.blue.x, COORDS_VALUES.blue.y, COORDS_VALUES.blue.z),
-            new Vector3(CURVE_COORDS.blue.x, CURVE_COORDS.blue.y, CURVE_COORDS.blue.z),
+        island_city: [
+            new Vector3(COORDS_VALUES.ISLAND.x, COORDS_VALUES.ISLAND.y, COORDS_VALUES.ISLAND.z),
+            new Vector3(CURVE_COORDS.ISLAND.x, CURVE_COORDS.ISLAND.y, CURVE_COORDS.ISLAND.z),
 
-            new Vector3(CURVE_COORDS.green.x, CURVE_COORDS.green.y, CURVE_COORDS.green.z),
-            new Vector3(COORDS_VALUES.green.x, COORDS_VALUES.green.y, COORDS_VALUES.green.z),
+            new Vector3(CURVE_COORDS.CITY.x, CURVE_COORDS.CITY.y, CURVE_COORDS.CITY.z),
+            new Vector3(COORDS_VALUES.CITY.x, COORDS_VALUES.CITY.y, COORDS_VALUES.CITY.z),
         ]
     }
 }
