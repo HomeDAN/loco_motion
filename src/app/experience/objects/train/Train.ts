@@ -187,13 +187,31 @@ export class Train {
             this.path?.getPoints(50)
         );
 
-        const pathMaterial = new LineBasicMaterial({color: 0xff0000});
+        const pathMaterial = new LineBasicMaterial({color: 0xff0000, transparent: true, opacity: 0});
+
         this.pathObject = new Line(pathGeometry, pathMaterial);
 
         this.app.scene?.add(this.pathObject);
     }
 
     private update = () => {
+
+        if (this.app.camera.orbitControls.enabled) return
+
+        const trainPos = this.trainMesh.position
+
+        // Изометрическое смещение (пример: 45° по X, ~35° по Y, 45° по Z)
+        const offset = new Vector3(20, 20, 20) // подбери под свой масштаб
+
+        // Позиция камеры = позиция поезда + смещение
+        this.app.camera.getCamera().position.set(
+            trainPos.x + offset.x,
+            trainPos.y + offset.y,
+            trainPos.z + offset.z
+        )
+
+        // Смотрим на поезд (или чуть впереди/выше)
+        this.app.camera.getCamera().lookAt(trainPos.x, trainPos.y, trainPos.z)
     }
 
 }

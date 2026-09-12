@@ -1,12 +1,11 @@
 import * as THREE from 'three';
-import {AmbientLight, DirectionalLight, DirectionalLightHelper} from 'three';
+import {AmbientLight, DirectionalLight} from 'three';
 
 import {ThreeApp} from "../ThreeApp.ts";
 
 export class SceneLight {
     ambientLight: AmbientLight;
     directionalLight: DirectionalLight;
-    directionalLightHelper: DirectionalLightHelper;
     private readonly app: ThreeApp;
 
     constructor() {
@@ -15,7 +14,6 @@ export class SceneLight {
 
         this.ambientLight = new THREE.AmbientLight(0xFFFFFF, 1);
         this.directionalLight = new THREE.DirectionalLight(0xFFFFFF, 5);
-        this.directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight);
 
         this.setDirectionalLight()
         this.setDirectionalLightGUI()
@@ -29,7 +27,6 @@ export class SceneLight {
 
         this.app.scene.add(this.directionalLight);
         this.app.scene.add(this.directionalLight.target);
-        this.app.scene.add(this.directionalLightHelper);
     }
 
     setDirectionalLightGUI() {
