@@ -23,6 +23,7 @@
     "noUncheckedSideEffectImports": true,
 
     "suppressImplicitAnyIndexErrors": true,
+    "jsx": "react"
   },
   "include": [
     "src",

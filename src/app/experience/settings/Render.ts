@@ -1,0 +1,35 @@
+import {ThreeApp} from "../ThreeApp.ts";
+import {WebGPURenderer} from "three/webgpu";
+import {Inspector} from "three/addons/inspector/Inspector.js"
+
+export class Render {
+    renderer: WebGPURenderer;
+    private readonly app: ThreeApp;
+
+    constructor() {
+
+        this.app = ThreeApp.getInstance()
+
+        this.renderer = new WebGPURenderer()
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.renderer.setAnimationLoop(this.animate.bind(this));
+        this.renderer.inspector = new Inspector()
+
+        console.log(this.renderer.backend)
+    }
+
+    getDOMElement(): HTMLCanvasElement {
+        return this.renderer.domElement;
+    }
+
+    private animate = () => {
+        this.app.camera.updateOrbitControls();
+
+        this.app.ticker.tick()
+
+        this.renderer.render(this.app.scene, this.app.camera.getCamera());
+    }
+
+}
